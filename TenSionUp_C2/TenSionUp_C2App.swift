@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct TenSionUp_C2App: App {
@@ -13,5 +14,6 @@ struct TenSionUp_C2App: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: Meeting.self)
     }
 }
