@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct MeetingNamePage: View {
+    @Binding var step: Step
     @Binding var meetingName: String
     @Binding var currentPage: Int
     
@@ -25,6 +26,7 @@ struct MeetingNamePage: View {
             
             // Button
             Button {
+                step = .speakers
                 currentPage = 1
             } label: {
                 Label("다음", systemImage: "arrow.right")
@@ -36,5 +38,5 @@ struct MeetingNamePage: View {
 }
 
 #Preview {
-    MeetingNamePage(meetingName: .constant("텐션업"), currentPage: .constant(0))
+    MeetingNamePage(step: .constant(.meetingName),meetingName: .constant("텐션업"), currentPage: .constant(0))
 }

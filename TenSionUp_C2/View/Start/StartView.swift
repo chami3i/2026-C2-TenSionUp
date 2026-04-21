@@ -8,7 +8,15 @@
 import SwiftUI
 import SwiftData
 
+enum Step {
+    case meetingName
+    case speakers
+    case timer
+}
+
 struct StartView: View {
+    @State private var step: Step = .meetingName
+    
     @Environment(\.modelContext) private var modelContext
     
     @State private var currentPage = 0
@@ -31,46 +39,45 @@ struct StartView: View {
                 .bold()
             
             // Page Control
-            
-            TabView(selection: $currentPage) {
-            MeetingNamePage(
-                meetingName: $meetingName,
-                currentPage: $currentPage
-            )
-                .tag(0)
-            
-            SpeakerInfoPage(
-                speakers: $speakers,
-                timerSeconds: $timerSeconds,
-                showAddSpeakerSheet: $showAddSpeakerSheet,
-                newSpeakerName: $newSpeakerName,
-                newSpeakerImage: $newSpeakerImage,
-                nextSlotIndex: $nextSlotIndex,
-                currentPage: $currentPage
-            )
-                .tag(1)
-                
-            TimerSettingPage(
-                timerSeconds: $timerSeconds,
-                minute: $minute,
-                second: $second,
-                currentPage: $currentPage
-            )
-                .tag(2)
+            HStack(spacing: 8) {
+                Circle()
+                    .fill(currentPage >= 0 ? Color.gray : Color.gray.opacity(0.2))
+                    .frame(width: 8, height: 8)
+                Circle()
+                    .fill(currentPage >= 1 ? Color.gray : Color.gray.opacity(0.2))
+                    .frame(width: 8, height: 8)
+                Circle()
+                    .fill(currentPage >= 2 ? Color.gray : Color.gray.opacity(0.2))
+                    .frame(width: 8, height: 8)
             }
-            .tabViewStyle(.page(indexDisplayMode: .always))
-            .indexViewStyle(.page(backgroundDisplayMode: .always))
-//            .sheet(isPresented: $showAddSpeakerSheet, onDismiss: {
-//                                currentPage = 1
-//            }) {
-//                AddSpeakerInfoSheet(
-//                    showAddSpeakerSheet: $showAddSpeakerSheet,
-//                    speakers: $speakers,
-//                    timerSeconds: $timerSeconds,
-//                    newSpeakerName: $newSpeakerName,
-//                    newSpeakerImage: $newSpeakerImage
-//                )
-//            }
+            .padding(.bottom, 16)
+            
+            switch step {
+            case .meetingName:
+                MeetingNamePage(
+                    step: $step,
+                    meetingName: $meetingName,
+                    currentPage: $currentPage
+                )
+            case .speakers:
+                SpeakerInfoPage(
+                    step: $step,
+                    speakers: $speakers,
+                    timerSeconds: $timerSeconds,
+                    showAddSpeakerSheet: $showAddSpeakerSheet,
+                    newSpeakerName: $newSpeakerName,
+                    newSpeakerImage: $newSpeakerImage,
+                    nextSlotIndex: $nextSlotIndex,
+                    currentPage: $currentPage
+                )
+            case .timer:
+                TimerSettingPage(
+                    timerSeconds: $timerSeconds,
+                    minute: $minute,
+                    second: $second,
+                    currentPage: $currentPage
+                )
+            }
         }
     }
 }

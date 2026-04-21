@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct SpeakerInfoPage: View {
+    @Binding var step: Step
     @Binding var speakers: [Speaker]
     @Binding var timerSeconds: Int
     @Binding var showAddSpeakerSheet: Bool
@@ -155,6 +156,7 @@ struct SpeakerInfoPage: View {
             
             // Button
             Button {
+                step = .timer
                 currentPage = 2
             } label: {
                 Label("다음", systemImage: "arrow.right")
@@ -165,5 +167,5 @@ struct SpeakerInfoPage: View {
 }
 
 #Preview {
-    SpeakerInfoPage(speakers: .constant([Speaker(name: "BARA", image: "🐰", time: 180)]), timerSeconds: .constant(180), showAddSpeakerSheet: .constant(false), newSpeakerName: .constant(""), newSpeakerImage: .constant("🐰"), nextSlotIndex: .constant(nil), currentPage: .constant(1))
+    SpeakerInfoPage(step: .constant(.speakers),speakers: .constant([Speaker(name: "BARA", image: "🐰", time: 180)]), timerSeconds: .constant(180), showAddSpeakerSheet: .constant(false), newSpeakerName: .constant(""), newSpeakerImage: .constant("🐰"), nextSlotIndex: .constant(nil), currentPage: .constant(1))
 }
