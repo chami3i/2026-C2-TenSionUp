@@ -11,6 +11,7 @@ struct TimerSettingPage: View {
     @Binding var minute: Int
     @Binding var second: Int
     @Binding var currentPage: Int
+    @Binding var startMeeting: Bool
     
     var body: some View {
         VStack {
@@ -46,6 +47,7 @@ struct TimerSettingPage: View {
             // Button
             Button {
                 timerSeconds = minute * 60 + second
+                startMeeting = true
             } label: {
                 Label("다음", systemImage: "arrow.right")
             }
@@ -54,5 +56,5 @@ struct TimerSettingPage: View {
 }
 
 #Preview {
-    TimerSettingPage(timerSeconds: .constant(180), minute: .constant(3), second: .constant(0), currentPage: .constant(2))
+    TimerSettingPage(timerSeconds: .constant(180), minute: .constant(3), second: .constant(0), currentPage: .constant(2), startMeeting: .constant(false))
 }
