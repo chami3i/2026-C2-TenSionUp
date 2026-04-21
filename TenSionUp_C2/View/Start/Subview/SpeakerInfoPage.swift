@@ -1,77 +1,21 @@
 //
-//  StartView.swift
+//  SpeakerInfoPage.swift
 //  TenSionUp_C2
 //
-//  Created by chaem on 4/20/26.
+//  Created by chaem on 4/21/26.
 //
-
 import SwiftUI
-import SwiftData
 
-struct StartView: View {
-    @Environment(\.modelContext) private var modelContext
-    
-    @State private var currentPage = 0
-    @State private var meetingName: String = ""
-    @State private var speakers: [Speaker] = []
-    @State private var timerSeconds: Int = 180
-    
-    @State private var showAddSpeakerSheet: Bool = false
-    @State private var newSpeakerName: String = ""
-    @State private var newSpeakerImage: String = ""
-    @State private var nextSlotIndex: Int? = nil
-    
-    @State private var minute: Int = 3
-    @State private var second: Int = 0
+struct SpeakerInfoPage: View {
+    @Binding var speakers: [Speaker]
+    @Binding var timerSeconds: Int
+    @Binding var showAddSpeakerSheet: Bool
+    @Binding var newSpeakerName: String
+    @Binding var newSpeakerImage: String
+    @Binding var nextSlotIndex: Int?
+    @Binding var currentPage: Int
     
     var body: some View {
-        VStack {
-            Text("새 회의")
-                .font(.largeTitle)
-                .bold()
-            
-            // Page Control
-            
-            TabView(selection: $currentPage) {
-            MeetingNamePage()
-                .tag(0)
-            
-            SpeakerInfoPage()
-                .tag(1)
-                
-            TimerSettingPage()
-                .tag(2)
-            }
-            .tabViewStyle(.page(indexDisplayMode: .always))
-            .indexViewStyle(.page(backgroundDisplayMode: .always))
-        }
-    }
-    
-    @ViewBuilder
-    func MeetingNamePage() -> some View {
-        VStack {
-            Text("어떤 회의인가요?")
-                .font(.title2)
-            
-            Text("회의 이름을 입력해주세요.")
-                .foregroundColor(Color.gray)
-            
-            // TextField
-            TextField("회의 이름을 입력해주세요.", text: $meetingName)
-                .padding()
-                .textFieldStyle(.roundedBorder)
-            
-            // Button
-            Button {
-                currentPage = 1
-            } label: {
-                Label("다음", systemImage: "arrow.right")
-            }
-        }
-    }
-    
-    @ViewBuilder
-    func SpeakerInfoPage() -> some View {
         VStack {
             Text("누가 참여하나요?")
                 .font(.title2)
@@ -103,7 +47,7 @@ struct StartView: View {
                             Text(speaker.image)
                                 .font(.system(size: 100))
                         }
-//                        .frame(maxWidth: .infinity)
+                        //                        .frame(maxWidth: .infinity)
                         .frame(width: 180, height: 180)
                         .background(Color.gray.opacity(0.15))
                         .cornerRadius(20)
@@ -121,7 +65,7 @@ struct StartView: View {
                             }
                         }
                     }
-                     
+                    
                 }
             }
             .sheet(isPresented: $showAddSpeakerSheet) {
@@ -134,7 +78,7 @@ struct StartView: View {
                                 .foregroundStyle(Color.gray)
                         }
                     }
-                   
+                    
                     Text("참가자 추가")
                         .font(.title)
                     
@@ -183,20 +127,21 @@ struct StartView: View {
                         
                         Button {
                             let trimmedName = newSpeakerName.trimmingCharacters(in: .whitespacesAndNewlines)
-                             
-                             guard !trimmedName.isEmpty else { return }
-                             guard !newSpeakerImage.isEmpty else { return }
-                             
-                             speakers.append(
-                                 Speaker(
-                                     name: trimmedName,
-                                     image: newSpeakerImage,
-                                     time: timerSeconds
-                                 )
-                             )
-                             newSpeakerName = ""
-                             newSpeakerImage = ""
-                             showAddSpeakerSheet = false
+                            
+                            guard !trimmedName.isEmpty else { return }
+                            guard !newSpeakerImage.isEmpty else { return }
+                            
+                            speakers.append(
+                                Speaker(
+                                    name: trimmedName,
+                                    image: newSpeakerImage,
+                                    time: timerSeconds
+                                )
+                            )
+                            newSpeakerName = ""
+                            newSpeakerImage = ""
+                            showAddSpeakerSheet = false
+                            
                         } label: {
                             Text("추가하기")
                         }
@@ -217,66 +162,8 @@ struct StartView: View {
             .disabled(([Speaker(name: "CHAEM", image: "🐶", time: timerSeconds)] + speakers).count < 2)
         }
     }
-    
-    @ViewBuilder
-    func AddSpeakerCard(isEnabled: Bool, action: @escaping () -> Void) -> some View {
-        Button {
-            action()
-        } label: {
-            VStack {
-                Image(systemName: "plus")
-                    .font(.title)
-                
-                Text("참가자 추가")
-                    .font(.title3)
-            }
-            .foregroundStyle(isEnabled ? Color.gray : Color.gray.opacity(0.35))
-            .frame(width: 180, height: 180)
-            .background(isEnabled ? Color.gray.opacity(0.15) : Color.gray.opacity(0.08))
-            .cornerRadius(20)
-            .opacity(isEnabled ? 1.0 : 0.6)
-        }
-        .disabled(!isEnabled)
-        .allowsHitTesting(isEnabled)
-    }
-    
-    @ViewBuilder
-    func TimerSettingPage() -> some View {
-        VStack {
-            Text("1인당 발화 시간은 얼마인가요?")
-                .font(.title2)
-            
-            Text("한 사람당 말할 수 있는 시간을 설정해주세요")
-                .foregroundColor(Color.gray)
-            
-            // 타이머
-            HStack {
-                Picker("분", selection: $minute) {
-                    ForEach(0..<21) { minute in
-                        Text("\(minute)분")
-                    }
-                }
-                .pickerStyle(.wheel)
-                
-                Picker("초", selection: $second) {
-                    ForEach([0, 10, 20, 30, 40, 50], id: \.self) { second in
-                        Text("\(second)초")
-                    }
-                }
-                .pickerStyle(.wheel)
-            }
-            
-            // Button
-            Button {
-                
-            } label: {
-                Label("다음", systemImage: "arrow.right")
-            }
-        }
-    }
-
 }
 
 #Preview {
-    StartView()
+    SpeakerInfoPage(speakers: .constant([Speaker(name: "BARA", image: "🐰", time: 180)]), timerSeconds: .constant(180), showAddSpeakerSheet: .constant(false), newSpeakerName: .constant(""), newSpeakerImage: .constant("🐰"), nextSlotIndex: .constant(nil), currentPage: .constant(1))
 }
