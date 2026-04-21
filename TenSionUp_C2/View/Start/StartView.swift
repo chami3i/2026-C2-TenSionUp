@@ -84,7 +84,10 @@ struct StartView: View {
                 }
             }
             .navigationDestination(isPresented: $startMeeting) {
-                InMeetingView(meetingName: meetingName)
+                InMeetingView(meetingName: meetingName,
+                speakers: [Speaker(name: "CHAEM", image: "🐶", time: timerSeconds)] + speakers,
+                timerSeconds: timerSeconds
+                )
             }
         }
     }
