@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct InMeetingView: View {
     let meeting: Meeting
     @State private var speakers: [Speaker]
+    @State private var showResultView = false
     
     @State private var timer: Timer? = nil
+    @Environment(\.modelContext) private var modelContext
     
     init(meeting: Meeting) {
         self.meeting = meeting
@@ -45,11 +48,14 @@ struct InMeetingView: View {
             }
             
             Button {
-                
+                finishMeeting()
             } label: {
                 Text("회의 끝내기")
             }
-            
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationDestination(isPresented: $showResultView) {
+            ResultView(meeting: meeting)
         }
     }
     
@@ -122,6 +128,18 @@ struct InMeetingView: View {
             speakers[activeIndex].timeState = .ended
             stopTimer()
         }
+    }
+    
+    private func finishMeeting() {
+        stopTimer()
+        
+        for index in speakers.indices where speakers[index].timeState == .running {
+            speakers[index].timeState = .paused
+        }
+        
+        meeting.speakers = speakers
+        try? modelContext.save()
+        showResultView = true
     }
 }
 
