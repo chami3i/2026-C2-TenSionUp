@@ -38,5 +38,5 @@ struct TitleSettingPage: View {
 }
 
 #Preview {
-    TitleSettingPage(step: .constant(.meetingName), title: .constant("텐션업"), currentPage: .constant(0))
+    TitleSettingPage(step: .constant(.title), title: .constant("텐션업"), currentPage: .constant(0))
 }

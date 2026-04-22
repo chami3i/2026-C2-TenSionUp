@@ -9,13 +9,13 @@ import SwiftUI
 import SwiftData
 
 enum Step {
-    case meetingName
+    case title
     case speakers
     case timer
 }
 
 struct StartView: View {
-    @State private var step: Step = .meetingName
+    @State private var step: Step = .title
     
     @Environment(\.modelContext) private var modelContext
     
@@ -56,7 +56,7 @@ struct StartView: View {
                 .padding(.bottom, 16)
                 
                 switch step {
-                case .meetingName:
+                case .title:
                     TitleSettingPage(
                         step: $step,
                         title: $title,
