@@ -13,8 +13,12 @@ struct MinutesView: View {
     
     private let mainSpeakerName = "CHAEM"
     
+    private var displayedMeetings: [Meeting] {
+        meetings.filter { !$0.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+    }
+    
     private var totalMeetingCount: Int {
-        meetings.filter { !$0.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }.count
+        displayedMeetings.count
     }
     
     private var totalListeningSeconds: Int {
@@ -59,6 +63,9 @@ struct MinutesView: View {
             
             Text("지난 회의")
             
+            ForEach(displayedMeetings) { meeting in
+                MeetingCard(meeting: meeting)
+            }
             
         }
     }

@@ -12,17 +12,20 @@ import SwiftData
 final class Meeting {
     var title: String
     var createdAt: Date
+    var endedAt: Date?
     var speakers: [Speaker] = []
     var timerSeconds: Int
     
     init(
         title: String,
         createdAt: Date = Date(),
+        endedAt: Date? = nil,
         speakers: [Speaker] = [],
         timerSeconds: Int
     ) {
         self.title = title
         self.createdAt = createdAt
+        self.endedAt = endedAt
         self.speakers = speakers
         self.timerSeconds = timerSeconds
     }

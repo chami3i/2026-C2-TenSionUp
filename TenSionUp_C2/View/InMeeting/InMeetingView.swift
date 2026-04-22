@@ -138,6 +138,7 @@ struct InMeetingView: View {
         }
         
         meeting.speakers = speakers
+        meeting.endedAt = Date()
         try? modelContext.save()
         showResultView = true
     }
