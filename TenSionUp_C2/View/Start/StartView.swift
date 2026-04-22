@@ -20,7 +20,7 @@ struct StartView: View {
     @Environment(\.modelContext) private var modelContext
     
     @State private var currentPage = 0
-    @State private var meetingName: String = ""
+    @State private var title: String = ""
     @State private var speakers: [Speaker] = []
     @State private var timerSeconds: Int = 180
     
@@ -32,7 +32,7 @@ struct StartView: View {
     @State private var minute: Int = 3
     @State private var second: Int = 0
     
-    @State private var startMeeting = false
+    @State private var activeMeeting: Meeting?
     
     var body: some View {
         NavigationStack {
@@ -57,9 +57,9 @@ struct StartView: View {
                 
                 switch step {
                 case .meetingName:
-                    MeetingNamePage(
+                    TitleSettingPage(
                         step: $step,
-                        meetingName: $meetingName,
+                        title: $title,
                         currentPage: $currentPage
                     )
                 case .speakers:
@@ -79,17 +79,51 @@ struct StartView: View {
                         minute: $minute,
                         second: $second,
                         currentPage: $currentPage,
-                        startMeeting: $startMeeting
+                        startMeeting: startMeeting
                     )
                 }
             }
-            .navigationDestination(isPresented: $startMeeting) {
-                InMeetingView(meetingName: meetingName,
-                speakers: [Speaker(name: "CHAEM", image: "🐶", time: timerSeconds)] + speakers,
-                timerSeconds: timerSeconds
+            .navigationDestination(
+                isPresented: Binding (
+                    get: { activeMeeting != nil },
+                    set: { isPresented in
+                        if !isPresented {
+                            activeMeeting = nil
+                        }
+                    }
                 )
+            ) {
+                if let activeMeeting {
+                    InMeetingView(meeting: activeMeeting)
+                }
             }
         }
+    }
+    
+    private func startMeeting() {
+        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        let selectedTimerSeconds = minute * 60 + second
+        let meetingSpeakers = [Speaker(name: "CHAEM", image: "🐶", time: selectedTimerSeconds)] + speakers.map { speaker in
+            Speaker(
+                id: speaker.id,
+                name: speaker.name,
+                image: speaker.image,
+                time: selectedTimerSeconds,
+                speakingSeconds: speaker.speakingSeconds,
+                listeningSeconds: speaker.listeningSeconds
+            )
+        }
+        
+        timerSeconds = selectedTimerSeconds
+        
+        let meeting = Meeting(
+            title: trimmedTitle,
+            speakers: meetingSpeakers,
+            timerSeconds: selectedTimerSeconds
+        )
+        
+        modelContext.insert(meeting)
+        activeMeeting = meeting
     }
 }
 

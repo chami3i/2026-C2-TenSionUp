@@ -8,16 +8,14 @@
 import SwiftUI
 
 struct InMeetingView: View {
-    let meetingName: String
+    let meeting: Meeting
     @State private var speakers: [Speaker]
-    let timerSeconds: Int
     
     @State private var timer: Timer? = nil
     
-    init(meetingName: String, speakers: [Speaker], timerSeconds: Int) {
-        self.meetingName = meetingName
-        self._speakers = State(initialValue: speakers)
-        self.timerSeconds = timerSeconds
+    init(meeting: Meeting) {
+        self.meeting = meeting
+        self._speakers = State(initialValue: meeting.speakers)
     }
     
     let columns = [
@@ -29,7 +27,7 @@ struct InMeetingView: View {
         VStack {
             Divider()
             
-            Text(meetingName)
+            Text(meeting.title)
                 .font(.title2)
                 .bold()
             
@@ -44,6 +42,12 @@ struct InMeetingView: View {
                         onTap: { cardTap(for: speaker.id) }
                     )
                 }
+            }
+            
+            Button {
+                
+            } label: {
+                Text("회의 끝내기")
             }
             
         }
@@ -122,12 +126,15 @@ struct InMeetingView: View {
 }
 
 #Preview {
-    InMeetingView(meetingName: "텐션업",
-                  speakers: [
-                              Speaker(name: "CHAEM", image: "🐶", time: 180),
-                              Speaker(name: "BARA", image: "🐰", time: 180),
-                              Speaker(name: "MOO", image: "🤖", time: 180),
-                              Speaker(name: "SOONG", image: "🙊", time: 180)
-                          ],
-                  timerSeconds: 180)
+    InMeetingView(
+        meeting: Meeting(
+            title: "텐션업",
+            speakers: [
+                Speaker(name: "CHAEM", image: "🐶", time: 180),
+                Speaker(name: "BARA", image: "🐰", time: 180),
+                Speaker(name: "MOO", image: "🤖", time: 180),
+                Speaker(name: "SOONG", image: "🙊", time: 180)
+            ],
+            timerSeconds: 180)
+        )
 }

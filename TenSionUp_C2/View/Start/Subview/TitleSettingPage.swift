@@ -1,14 +1,14 @@
 //
-//  MeetingNamePage.swift
+//  TitleSettingPage.swift
 //  TenSionUp_C2
 //
 //  Created by chaem on 4/21/26.
 //
 import SwiftUI
 
-struct MeetingNamePage: View {
+struct TitleSettingPage: View {
     @Binding var step: Step
-    @Binding var meetingName: String
+    @Binding var title: String
     @Binding var currentPage: Int
     
     var body: some View {
@@ -20,7 +20,7 @@ struct MeetingNamePage: View {
                 .foregroundColor(Color.gray)
             
             // TextField
-            TextField("회의 이름을 입력해주세요.", text: $meetingName)
+            TextField("회의 이름을 입력해주세요.", text: $title)
                 .padding()
                 .textFieldStyle(.roundedBorder)
             
@@ -31,12 +31,12 @@ struct MeetingNamePage: View {
             } label: {
                 Label("다음", systemImage: "arrow.right")
             }
-            .disabled(meetingName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-            .opacity(meetingName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.5 : 1.0)
+            .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            .opacity(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.5 : 1.0)
         }
     }
 }
 
 #Preview {
-    MeetingNamePage(step: .constant(.meetingName),meetingName: .constant("텐션업"), currentPage: .constant(0))
+    TitleSettingPage(step: .constant(.meetingName), title: .constant("텐션업"), currentPage: .constant(0))
 }
