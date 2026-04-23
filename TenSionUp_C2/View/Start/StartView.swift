@@ -83,6 +83,7 @@ struct StartView: View {
                     )
                 }
             }
+            .padding(.horizontal, 16)
             .navigationDestination(
                 isPresented: Binding (
                     get: { activeMeeting != nil },

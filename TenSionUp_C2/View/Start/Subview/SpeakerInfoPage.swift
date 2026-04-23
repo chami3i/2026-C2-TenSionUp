@@ -17,7 +17,10 @@ struct SpeakerInfoPage: View {
     @Binding var currentPage: Int
     
     var body: some View {
-        VStack {
+        let canAddSpeaker = !newSpeakerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && !newSpeakerImage.isEmpty
+        
+        VStack(alignment: .leading, spacing: 12) {
             Text("누가 참여하나요?")
                 .font(.title2)
             
@@ -70,8 +73,10 @@ struct SpeakerInfoPage: View {
                 }
             }
             .sheet(isPresented: $showAddSpeakerSheet) {
-                VStack {
+                VStack(alignment: .leading, spacing: 16) {
                     HStack { //TODO: trailing alignment
+                        Spacer()
+                        
                         Button {
                             showAddSpeakerSheet = false
                         } label: {
@@ -82,6 +87,7 @@ struct SpeakerInfoPage: View {
                     
                     Text("참가자 추가")
                         .font(.title)
+                        .frame(maxWidth: .infinity, alignment: .center)
                     
                     Text(newSpeakerImage)
                         .font(.system(size: 60))
@@ -89,6 +95,7 @@ struct SpeakerInfoPage: View {
                         .frame(width: 100, height: 100)
                         .background(Color.gray.opacity(0.15))
                         .cornerRadius(20)
+                        .frame(maxWidth: .infinity)
                     
                     VStack(alignment: .leading, spacing: 8) {
                         Text("이름")
@@ -145,13 +152,22 @@ struct SpeakerInfoPage: View {
                             
                         } label: {
                             Text("추가하기")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 18)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding()
+                        .disabled(!canAddSpeaker)
+                        .foregroundStyle(canAddSpeaker ? Color.black : Color.gray.opacity(0.55))
+                        .background(
+                            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                .fill(canAddSpeaker ? Color.gray.opacity(0.15) : Color.gray.opacity(0.08))
+                        )
                     }
                     .padding(16)
                     
                 }
+                .padding(.horizontal, 16)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
             
             // Button
@@ -179,6 +195,7 @@ struct SpeakerInfoPage: View {
                     )
             )
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

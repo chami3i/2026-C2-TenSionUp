@@ -14,7 +14,7 @@ struct TimerSettingPage: View {
     let startMeeting: () -> Void
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 12) {
             Text("1인당 발화 시간은 얼마인가요?")
                 .font(.title2)
             
@@ -60,6 +60,7 @@ struct TimerSettingPage: View {
                     .fill(Color.gray.opacity(0.15))
             )
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

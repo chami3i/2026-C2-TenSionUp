@@ -12,7 +12,7 @@ struct TitleSettingPage: View {
     @Binding var currentPage: Int
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 12) {
             Text("어떤 회의인가요?")
                 .font(.title2)
             
@@ -21,7 +21,6 @@ struct TitleSettingPage: View {
             
             // TextField
             TextField("회의 이름을 입력해주세요.", text: $title)
-                .padding()
                 .textFieldStyle(.roundedBorder)
             
             // Button
@@ -49,6 +48,7 @@ struct TitleSettingPage: View {
                     )
             )
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
