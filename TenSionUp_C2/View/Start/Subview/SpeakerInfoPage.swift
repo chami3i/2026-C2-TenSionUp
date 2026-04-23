@@ -160,8 +160,24 @@ struct SpeakerInfoPage: View {
                 currentPage = 2
             } label: {
                 Label("다음", systemImage: "arrow.right")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 18)
             }
             .disabled(([Speaker(name: "CHAEM", image: "🐶", time: timerSeconds)] + speakers).count < 2)
+            .foregroundStyle(
+                ([Speaker(name: "CHAEM", image: "🐶", time: timerSeconds)] + speakers).count < 2
+                ? Color.gray.opacity(0.55)
+                : Color.black
+            )
+            .background(
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .fill(
+                        ([Speaker(name: "CHAEM", image: "🐶", time: timerSeconds)] + speakers).count < 2
+                        ? Color.gray.opacity(0.08)
+                        : Color.gray.opacity(0.15)
+                    )
+            )
         }
     }
 }

@@ -30,10 +30,12 @@ struct SpeakerCard: View {
                 
                 // Image
                 Text(speaker.image)
-                    .font(.title)
+                    .font(.system(size: 100))
+                    .padding(.bottom, 3)
                 
                 // Timer
                 Text(showTimer)
+                    .bold()
                 
                 // Progress Bar
     //            ProgressView()

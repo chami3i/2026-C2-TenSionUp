@@ -51,7 +51,15 @@ struct InMeetingView: View {
                 finishMeeting()
             } label: {
                 Text("회의 끝내기")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 18)
             }
+            .foregroundStyle(Color.black)
+            .background(
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .fill(Color.gray.opacity(0.15))
+            )
         }
         .navigationBarBackButtonHidden(true)
         .navigationDestination(isPresented: $showResultView) {

@@ -30,9 +30,24 @@ struct TitleSettingPage: View {
                 currentPage = 1
             } label: {
                 Label("다음", systemImage: "arrow.right")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 18)
             }
             .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-            .opacity(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.5 : 1.0)
+            .foregroundStyle(
+                title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                ? Color.gray.opacity(0.55)
+                : Color.black
+            )
+            .background(
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .fill(
+                        title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                        ? Color.gray.opacity(0.08)
+                        : Color.gray.opacity(0.15)
+                    )
+            )
         }
     }
 }

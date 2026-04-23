@@ -52,7 +52,7 @@ struct MinutesView: View {
                 .cornerRadius(20)
                 
                 VStack {
-                    Text("8") // 완료한 Self Review
+                    Text("0") // 완료한 Self Review
                     
                     Text("Self Review")
                 }

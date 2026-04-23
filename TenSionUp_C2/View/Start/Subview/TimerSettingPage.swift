@@ -50,7 +50,15 @@ struct TimerSettingPage: View {
                 startMeeting()
             } label: {
                 Label("다음", systemImage: "arrow.right")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 18)
             }
+            .foregroundStyle(Color.black)
+            .background(
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .fill(Color.gray.opacity(0.15))
+            )
         }
     }
 }
