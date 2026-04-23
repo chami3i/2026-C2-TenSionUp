@@ -6,19 +6,45 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @StateObject private var appNavigation = AppNavigation()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            switch appNavigation.screen {
+            case .home:
+                HomeView()
+            case .mainTabs:
+                MainTabView()
+            }
         }
-        .padding()
+        .environmentObject(appNavigation)
+    }
+}
+
+private struct MainTabView: View {
+    @EnvironmentObject private var appNavigation: AppNavigation
+    
+    var body: some View {
+        TabView(selection: $appNavigation.selectedTab) {
+            StartView()
+                .tabItem {
+                    Label("회의하기", systemImage: "person.2.fill")
+                }
+                .tag(AppTab.start)
+            
+            MinutesView()
+                .tabItem {
+                    Label("회의록 보기", systemImage: "list.bullet")
+                }
+                .tag(AppTab.minutes)
+        }
     }
 }
 
 #Preview {
     ContentView()
+        .modelContainer(for: Meeting.self, inMemory: true)
 }

@@ -17,6 +17,7 @@ struct ResultView: View {
     ]
     
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject private var appNavigation: AppNavigation
     
     private var speakers: [Speaker] {
         meeting.speakers
@@ -96,6 +97,19 @@ struct ResultView: View {
             
             Spacer()
             
+            Button {
+                appNavigation.goHome()
+            } label: {
+                Text("홈으로 나가기")
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 52)
+                    .background(Color.blue.opacity(0.70))
+                    .cornerRadius(8)
+            }
+            .padding(.horizontal, 24)
+            .padding(.bottom, 20)
         }
         .navigationBarBackButtonHidden(true)
     }
@@ -120,4 +134,5 @@ struct ResultView: View {
             timerSeconds: 180
         )
     )
+    .environmentObject(AppNavigation())
 }

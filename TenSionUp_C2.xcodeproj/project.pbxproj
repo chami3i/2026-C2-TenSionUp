@@ -10,22 +10,9 @@
 		20E043292F9649F100A16685 /* TenSionUp_C2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TenSionUp_C2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		20D80A122F9900FC007816FC /* Exceptions for "TenSionUp_C2" folder in "TenSionUp_C2" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"TenSionUp-C2-Info.plist",
-			);
-			target = 20E043282F9649F100A16685 /* TenSionUp_C2 */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		20E0432B2F9649F100A16685 /* TenSionUp_C2 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				20D80A122F9900FC007816FC /* Exceptions for "TenSionUp_C2" folder in "TenSionUp_C2" target */,
-			);
 			path = TenSionUp_C2;
 			sourceTree = "<group>";
 		};
